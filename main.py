@@ -24,6 +24,11 @@ def compute_avg_briar(y, y_pred, C):
 def eval_weighted(votes, labels, theta):
 	'''
 	Function to compute the accuracy of a weighted combination of labelers
+	
+	Args:
+	votes - weak supervision source outputs
+	labels - one hot labels
+	theta - the weighting given to each weak supervision source
 	'''
 	N, M, C = np.shape(votes)
 	totals = np.zeros((M, C))
@@ -38,6 +43,10 @@ def eval_weighted(votes, labels, theta):
 def eval_majority(votes, sub):
 	'''
 	Function to evaluate the majority vote of a subset for binary tasks
+	
+	Args:
+	votes - weak supervision source outputs
+	sub - the subset of weak supervision sources to contribute to the majority vote
 	'''
 
 	N, M, C = np.shape(votes)
@@ -50,7 +59,13 @@ def eval_majority(votes, sub):
 
 def eval_lr(data, labels, theta, C):
 	'''
-	Function to evaluate a logistic regression model
+	Function to evaluate a logistic regression model 
+
+	Args:
+	data - the data to evaluate the logreg model on
+	labels - one hot labels
+	theta - the weights for the logreg model
+	C - the number of target classes
 	'''
 
 	probs = []
