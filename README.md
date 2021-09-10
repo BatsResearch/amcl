@@ -22,13 +22,17 @@ Then, you can run the linear program as follows:
 ```
 initial_theta = np.random.normal(0, 0.1, (np.shape(test_data)[1], C))
 model_theta = SG.subGradientMethod(unlabeled_data, c_matrix, c_vector,
-				c_sign, loss_function, model,
-				projection_function, initial_params,
-				T, h, N, num_unlab, C)
+					c_sign, loss_function, model,
+					projection_function, initial_params,
+					T, h, N, num_unlab, C)
 ```
 
 Here, this allows for different parameterized models by specifying the model and initial_params values. You can also change the objective funtion of the linear program
-by changing the particular loss_function parameter. Finally, there are a few other parameters that specify the training procedure, which you can customize (T, projection_function, etc.). We have impleementations of a few different models, loss functions, and projection functions, which can be used in the util.py file. You can also see an example usage of our methods on a toy dataset in the main.py file. 
+by changing the particular loss_function parameter. Finally, there are a few other parameters that specify the training procedure, which you can customize (T, projection_function, etc.). 
+
+<br>
+
+We have implementations of a few different models, loss functions, and projection functions, which can be used in the util.py file. You can also see an example usage of our methods on a toy dataset in the main.py file. 
 
 ## Citation
 
