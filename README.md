@@ -22,9 +22,9 @@ Then, you can run the linear program as follows:
 ```
 initial_theta = np.random.normal(0, 0.1, (np.shape(test_data)[1], C))
 model_theta = SG.subGradientMethod(unlabeled_data, c_matrix, c_vector,
-								   c_sign, loss_function, model,
-								   projection_function, initial_params,
-								   T, h, N, num_unlab, C)
+			   c_sign, loss_function, model,
+			   projection_function, initial_params,
+			   T, h, N, num_unlab, C)
 ```
 
 Here, this allows for different parameterized models by specifying the model and initial_params values. You can also change the objective funtion of the linear program
