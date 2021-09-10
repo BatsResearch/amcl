@@ -1,32 +1,9 @@
-import pulp as lp
 import numpy as np
-import scipy
-import itertools
-import math
-import operator as op
 from statistics import mean
 from scipy.optimize import linprog
 import random
-from numpy import linalg as LA
 from scipy.optimize import approx_fprime
-import qpsolvers
-import cvxpy as cp
-
-# Define your loss functions here
-def Brier_loss_linear(y_1, y_2):
-    # y_1 is the probability vector of a label occuring (true labels)
-    # y_2 is the guess
-    C = len(y_1)
-    if C != len(y_2):
-        raise NameError('Computing loss on vectors of different lengths')
-    x = 0
-    for i in range(C):
-        cum = 0
-        for j in range(C):
-            if i != j:
-                cum += y_2[j]**2
-        x += y_1[i]*((1 - y_2[i])**2 + cum)/2
-    return x
+from algorithms.util import Brier_loss_linear
 
 def computeMeanAndCovariance(output_labelers_labeled,true_labels, loss):
     N = len(output_labelers_labeled)
@@ -52,7 +29,6 @@ def computeMeanAndCovariance(output_labelers_labeled,true_labels, loss):
             cum = cum/(M-1)
             K[i1][i2] = cum
     return mu,K
-
 
 def test_matrix(output_labelers_labeled,true_labels,output_labelers_unlabeled, lf):
     mean,covariance = computeMeanAndCovariance(output_labelers_labeled,true_labels,lf)
@@ -142,12 +118,7 @@ def maximumLikelihood(output_labelers_labeled,true_labels,output_labelers_unlabe
         h[i] = -9999999
     prob = cp.Problem(cp.Minimize(cp.quad_form(x,P)), [A @ x == b, x >= h])
     prob.solve(solver =cp.ECOS,verbose=True,max_iters = 10000, abstol_inacc = 1e-2)
-    # print("Status solver", prob.status)
-    # print("\nThe optimal value is", prob.value)
-    # print("A solution x is")
-    # print(x.value)
     return prob.value, x.value
-
 
 def maximumLikelihood2(output_labelers_labeled,true_labels,output_labelers_unlabeled, lf):
     mean,covariance = computeMeanAndCovariance(output_labelers_labeled,true_labels,lf)
@@ -159,27 +130,6 @@ def maximumLikelihood2(output_labelers_labeled,true_labels,output_labelers_unlab
     L = np.linalg.cholesky(covariance)
     Li = np.linalg.inv(L)
     covariance = np.dot(Li.T,Li)
-
-    # x first N components are the coordinate of the vector of the objective function, next M*C are auxiliary variables
-    # See qopsolvers documentation for name of variables
-    # P_tot = np.zeros( (M*C, M*C))
-    # for a in range(N):
-    #     print(a)
-    #     for b in range(N):
-    #         P = np.zeros( (M*C,M*C))
-    #         for j1 in range(M):
-    #             for j2 in range(M):
-    #                 for c1 in range(C):
-    #                     for c2 in range(C):
-    #                         e_1 = np.zeros(C)
-    #                         e_1[c1]=1
-    #                         e_2 = np.zeros(C)
-    #                         e_2[c2]=1
-    #                         P[j1*C+c1][j2*C+c2] = (lf(e_1, output_labelers_unlabeled[a][j1]) - mean[a])*(lf(e_2,output_labelers_unlabeled[b][j2])-mean[b])/M
-    #         P = P*covariance[a][b]
-    #         P_tot = np.add(P_tot,P)
-    # P_tot = (P_tot + P_tot.T)/2
-    # print("Done computing P")
 
     L = np.zeros( (M*C,N))
     for j in range(M):
@@ -206,8 +156,4 @@ def maximumLikelihood2(output_labelers_labeled,true_labels,output_labelers_unlab
     h=np.zeros(M*C)
     prob = cp.Problem(cp.Minimize(cp.quad_form(x,P_tot)), [A @ x == b, x >= h])
     prob.solve(solver =cp.ECOS,verbose=True,max_iters = 1000, abstol_inacc = 1e-2)
-    # print("Status solver", prob.status)
-    # print("\nThe optimal value is", prob.value)
-    # print("A solution x is")
-    # print(x.value)
     return prob.value, x.value
