@@ -127,7 +127,7 @@ def projectToBall(v, maxDist = 100):
     '''
     v = np.array(v)
     c = min(maxDist/np.linalg.norm(v),1)
-    return v/c
+    return v * c
 
 def projectCC(v):
     '''
