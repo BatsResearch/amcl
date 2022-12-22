@@ -41,9 +41,12 @@ Please cite the following paper if you use our work. Thanks!
 Alessio Mazzetto*, Cyrus Cousins*, Dylan Sam, Stephen H. Bach, and Eli Upfal. "Adversarial Multi Class Learning under Weak Supervision with Performance Guarantees". International Conference on Machine Learning (ICML), 2021.
 
 ```
-@inproceedings{amcl,
-  Author = {Mazzetto, A. and Cousins, C. and Sam, D. and Bach, S. H. and Upfal, E.},
-  Title = {Adversarial Multiclass Learning under Weak Supervision with Performance Guarantees},
-  Booktitle = {International Conference on Machine Learning (ICML)},
-  Year = {2021}}
+@inproceedings{mazzetto2021adversarial,
+  title={Adversarial multi class learning under weak supervision with performance guarantees},
+  author={Mazzetto, Alessio and Cousins, Cyrus and Sam, Dylan and Bach, Stephen H and Upfal, Eli},
+  booktitle={International Conference on Machine Learning},
+  pages={7534--7543},
+  year={2021},
+  organization={PMLR}
+}
 ```
